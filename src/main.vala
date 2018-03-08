@@ -12,6 +12,7 @@ int main (string[] args) {
         var jo = net.api (token, "https://login.eveonline.com/oauth/verify");
         var name = jo.get_string_member ("CharacterName");
         stdout.printf ("Hello %s.\n", name);
+        window.setCharacterName (name);
         var ko = net.api (token, "https://esi.tech.ccp.is/latest/characters/" + jo.get_int_member ("CharacterID").to_string () + "/");
     });
 

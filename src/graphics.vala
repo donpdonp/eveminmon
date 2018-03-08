@@ -10,11 +10,19 @@ class Graphics {
 
 class Window : Gtk.Window {
 
+    Gtk.Label character_name;
+
     public Window () {
         var vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
         var title_label = new Gtk.Label ("EVE MinMon");
         vbox.add (title_label);
+        character_name = new Gtk.Label ("-");
+        vbox.add (character_name);
         add (vbox);
         show_all ();
+    }
+
+    public void setCharacterName (string title) {
+        character_name.set_markup (title);
     }
 }
