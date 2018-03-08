@@ -22,12 +22,12 @@ class Net {
         });
 
         message.request_headers.replace ("Authorization", "Bearer " + token);
+        stdout.printf ("Authorization: Bearer %s\n", token);
         session.send_message (message);
-        stdout.printf ("post send  %s\n", url);
         message.response_headers.foreach ((name, val) => {
 // stdout.printf ("resp %s: %s\n", name, val);
         });
-        stdout.printf ("%s\n", bodyToData (message.response_body));
+        stdout.printf ("api body: %s\n", bodyToData (message.response_body));
         string body = bodyToData (message.response_body);
         var node = strToObject (body);
         return node;
