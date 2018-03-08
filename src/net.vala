@@ -66,6 +66,24 @@ class Net {
         return true;
     }
 
+    public void getCharacterImage (int64 id) {
+        var filename = "images/" + id.to_string () + ".jpg";
+        var file = File.new_for_path (filename);
+        if (!file.query_exists ()) {
+            stdout.printf ("Character image %s missing. requesting. \n", filename);
+            var session = new Soup.Session ();
+            var url = "https://imageserver.eveonline.com/Character/" + id.to_string () + "_128.jpg";
+            var message = new Soup.Message ("GET", url);
+            session.send_message (message);
+            try {
+                GLib.FileUtils.set_data (filename, message.response_body.data);
+                stdout.printf ("file write %s: %d bytes\n", filename, (int) message.response_body.length);
+            } catch (GLib.FileError e) {
+                stdout.printf ("file write err `%s': %s\n", filename, e.message);
+            }
+        }
+    }
+
     Json.Object strToObject (string json) {
         var obj = new Json.Object ();
         try {

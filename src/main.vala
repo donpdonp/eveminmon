@@ -24,6 +24,8 @@ bool name_check (string token, Net net, Window window) {
     var name = jo.get_string_member ("CharacterName");
     stdout.printf ("Hello %s.\n", name);
     window.setCharacterName (name);
+    net.getCharacterImage (jo.get_int_member ("CharacterID"));
+    window.setImage (jo.get_int_member ("CharacterID"));
     var location = net.api (token, "https://esi.tech.ccp.is/latest/characters/" + jo.get_int_member ("CharacterID").to_string () + "/location/");
     window.setStationId (location.get_int_member ("station_id").to_string ());
     net.api (token, "https://esi.tech.ccp.is/latest/characters/" + jo.get_int_member ("CharacterID").to_string () + "/ship/");
