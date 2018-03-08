@@ -1,5 +1,8 @@
 /*
  */
+using Json;
+
+delegate void TokenCall (string a);
 
 class Net {
     Config config;
@@ -8,7 +11,7 @@ class Net {
         this.config = config;
     }
 
-    public bool get_access_token () {
+    public bool get_access_token (TokenCall tcall) {
         var session = new Soup.Session ();
 
         var verb = "post";
@@ -47,6 +50,18 @@ class Net {
                 body += newchar.to_string ();
             }
             stdout.printf ("body: %" + uint64.FORMAT_MODIFIER + "d %s\n", response.response_body.length, body);
+
+            try {
+                Json.Parser parser = new Json.Parser ();
+                parser.load_from_data (body);
+
+                // Get the root node:
+                var node = parser.get_root ().get_object ();
+
+                tcall (node.get_string_member ("access_token"));
+            } catch (Error e) {
+                stdout.printf ("Unable to parse `%s': %s\n", body, e.message);
+            }
         });
 
 
