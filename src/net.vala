@@ -14,7 +14,7 @@ class Net {
     public Json.Object api (string token, string url) {
         var session = new Soup.Session ();
         stdout.printf ("api %s\n", url);
-        var message = new Soup.Message ("get", url);
+        var message = new Soup.Message ("GET", url);
         message.got_headers.connect (() => {
             message.request_headers.foreach ((name, val) => {
 // stdout.printf ("req wtf %s: %s\n", name, val);
