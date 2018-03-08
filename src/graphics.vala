@@ -11,6 +11,7 @@ class Graphics {
 class Window : Gtk.Window {
 
     Gtk.Label character_name;
+    Gtk.Label station_name;
 
     public Window () {
         var vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
@@ -19,10 +20,17 @@ class Window : Gtk.Window {
         character_name = new Gtk.Label ("-");
         vbox.add (character_name);
         add (vbox);
+        station_name = new Gtk.Label ("-");
+        vbox.add (station_name);
+        add (vbox);
         show_all ();
     }
 
     public void setCharacterName (string title) {
         character_name.set_markup (title);
+    }
+
+    public void setStationId (string title) {
+        station_name.set_markup (title);
     }
 }
