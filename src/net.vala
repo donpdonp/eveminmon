@@ -17,7 +17,6 @@ class Net {
         var message = new Soup.Message ("GET", url);
         message.got_headers.connect (() => {
             message.request_headers.foreach ((name, val) => {
-// stdout.printf ("req wtf %s: %s\n", name, val);
             });
         });
 
@@ -25,7 +24,6 @@ class Net {
         stdout.printf ("Authorization: Bearer %s\n", token);
         session.send_message (message);
         message.response_headers.foreach ((name, val) => {
-// stdout.printf ("resp %s: %s\n", name, val);
         });
         stdout.printf ("api body: %s\n", bodyToData (message.response_body));
         string body = bodyToData (message.response_body);
@@ -67,12 +65,21 @@ class Net {
     }
 
     public void getCharacterImage (int64 id) {
-        var filename = "images/" + id.to_string () + ".jpg";
+        getImage ("Character", id, "jpg");
+    }
+
+    public void getShipImage (int64 id) {
+        getImage ("Render", id, "png");
+    }
+
+    public void getImage (string section, int64 id, string imgtype) {
+        var filename = "images/" + id.to_string () + "." + imgtype;
         var file = File.new_for_path (filename);
         if (!file.query_exists ()) {
             stdout.printf ("Character image %s missing. requesting. \n", filename);
             var session = new Soup.Session ();
-            var url = "https://imageserver.eveonline.com/Character/" + id.to_string () + "_128.jpg";
+            var url = "https://imageserver.eveonline.com/" + section + "/" + id.to_string () + "_128." + imgtype;
+            stdout.printf ("%s \n", url);
             var message = new Soup.Message ("GET", url);
             session.send_message (message);
             try {

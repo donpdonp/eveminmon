@@ -28,6 +28,8 @@ bool name_check (string token, Net net, Window window) {
     window.setImage (jo.get_int_member ("CharacterID"));
     var location = net.api (token, "https://esi.tech.ccp.is/latest/characters/" + jo.get_int_member ("CharacterID").to_string () + "/location/");
     window.setStationId (location.get_int_member ("station_id").to_string ());
-    net.api (token, "https://esi.tech.ccp.is/latest/characters/" + jo.get_int_member ("CharacterID").to_string () + "/ship/");
+    var ship = net.api (token, "https://esi.tech.ccp.is/latest/characters/" + jo.get_int_member ("CharacterID").to_string () + "/ship/");
+    net.getShipImage (ship.get_int_member ("ship_type_id"));
+    window.setShipImage (ship.get_int_member ("ship_type_id"));
     return true;
 }
