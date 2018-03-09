@@ -14,6 +14,7 @@ class Window : Gtk.Window {
     Gtk.Label station_name;
     Gtk.Image character_profile;
     Gtk.Image ship_image;
+    Gtk.Label ship_name;
 
     public Window () {
         var vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
@@ -30,6 +31,9 @@ class Window : Gtk.Window {
         add (vbox);
         ship_image = new Gtk.Image.from_file ("images/blank.png");
         vbox.add (ship_image);
+        add (vbox);
+        ship_name = new Gtk.Label ("-");
+        vbox.add (ship_name);
         add (vbox);
         show_all ();
     }
@@ -52,5 +56,9 @@ class Window : Gtk.Window {
         var filename = "images/" + id.to_string () + ".png";
         stdout.printf ("setting img from file " + filename);
         ship_image.set_from_file (filename);
+    }
+
+    public void setShipName (string name) {
+        ship_name.set_markup (name);
     }
 }

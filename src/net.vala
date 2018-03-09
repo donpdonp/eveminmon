@@ -21,7 +21,6 @@ class Net {
         });
 
         message.request_headers.replace ("Authorization", "Bearer " + token);
-        stdout.printf ("Authorization: Bearer %s\n", token);
         session.send_message (message);
         message.response_headers.foreach ((name, val) => {
         });

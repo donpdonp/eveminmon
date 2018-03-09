@@ -27,9 +27,13 @@ bool name_check (string token, Net net, Window window) {
     net.getCharacterImage (jo.get_int_member ("CharacterID"));
     window.setImage (jo.get_int_member ("CharacterID"));
     var location = net.api (token, "https://esi.tech.ccp.is/latest/characters/" + jo.get_int_member ("CharacterID").to_string () + "/location/");
-    window.setStationId (location.get_int_member ("station_id").to_string ());
+    var station = net.api (token, "https://esi.tech.ccp.is/latest/universe/stations/" + location.get_int_member ("station_id").to_string () + "/");
+    var station_name_parts = station.get_string_member ("name").split ("-");
+    window.setStationId (station_name_parts[0]);
+    stdout.printf ("station name %s\n", station.get_string_member ("name"));
     var ship = net.api (token, "https://esi.tech.ccp.is/latest/characters/" + jo.get_int_member ("CharacterID").to_string () + "/ship/");
     net.getShipImage (ship.get_int_member ("ship_type_id"));
     window.setShipImage (ship.get_int_member ("ship_type_id"));
+    window.setShipName (ship.get_string_member ("ship_name"));
     return true;
 }
