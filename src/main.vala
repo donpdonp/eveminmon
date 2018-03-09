@@ -2,24 +2,36 @@ int main (string[] args) {
     var config = new Config ();
     var net = new Net (config);
 
+    if (!config.has_refresh_token ()) {
+        config.give_oauth_step1 ();
+        var token = net.wait_token ();
+        if (token != null) {
+            config.set_refresh_token (token);
+        }
+    }
+
+    game_loop (config, net);
+    return 0;
+}
+
+void game_loop (Config config, Net net) {
+
     var loop = new MainLoop ();
-    Graphics.setup (args);
+    Graphics.setup ({});
     var window = new Window ();
     window.destroy.connect (loop.quit);
 
 
-    net.get_access_token ((token) => {
+    net.refresh_access_token ((token) => {
         stdout.printf ("got token %s\n", token);
-        name_check (token, net, window);
-        Timeout.add (30000, () => name_check (token, net, window));
+        api_loop (token, net, window);
+        Timeout.add (30000, () => api_loop (token, net, window));
     });
 
     loop.run ();
-
-    return 0;
 }
 
-bool name_check (string token, Net net, Window window) {
+bool api_loop (string token, Net net, Window window) {
     var jo = net.api (token, "https://login.eveonline.com/oauth/verify");
     var name = jo.get_string_member ("CharacterName");
     stdout.printf ("Hello %s.\n", name);
