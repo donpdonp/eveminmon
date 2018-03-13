@@ -39,6 +39,7 @@ bool api_loop (string token, Net net, Window window) {
     net.getCharacterImage (jo.get_int_member ("CharacterID"));
     window.setImage (jo.get_int_member ("CharacterID"));
     var location = net.api (token, "https://esi.tech.ccp.is/latest/characters/" + jo.get_int_member ("CharacterID").to_string () + "/location/");
+    var skills = net.api (token, "https://esi.tech.ccp.is/latest/characters/" + jo.get_int_member ("CharacterID").to_string () + "/skills/");
     var station = net.api (token, "https://esi.tech.ccp.is/latest/universe/stations/" + location.get_int_member ("station_id").to_string () + "/");
     var station_name_parts = station.get_string_member ("name").split ("-");
     window.setStationId (station_name_parts[0]);
@@ -47,5 +48,9 @@ bool api_loop (string token, Net net, Window window) {
     net.getShipImage (ship.get_int_member ("ship_type_id"));
     window.setShipImage (ship.get_int_member ("ship_type_id"));
     window.setShipName (ship.get_string_member ("ship_name"));
+
+    var status = net.api (token, "https://esi.tech.ccp.is/latest/status/");
+    /* {"start_time":"2018-03-13T11:08:44Z","players":23245,"server_version":"1268960"} */
+
     return true;
 }

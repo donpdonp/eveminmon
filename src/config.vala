@@ -7,7 +7,7 @@ class Config {
     public string client_secret;
 
     public string config_filename = "settings.json";
-    public string oauth_scope = "characterNavigationWrite characterAccountRead esi-location.read_location.v1 esi-location.read_ship_type.v1 esi-fittings.read_fittings.v1 esi-fittings.write_fittings.v1";
+    public string oauth_scope = "characterLocationRead characterNavigationWrite characterSkillsRead characterAccountRead esi-location.read_location.v1 esi-location.read_ship_type.v1 esi-skills.read_skills.v1 esi-skills.read_skillqueue.v1 esi-fittings.read_fittings.v1 esi-fittings.write_fittings.v1";
 
     public Config () {
         try {
@@ -35,7 +35,7 @@ class Config {
     }
 
     public bool has_refresh_token () {
-        return refresh_token != null && refresh_token.length == 87;
+        return refresh_token != null && refresh_token.length > 0;
     }
 
     public void give_oauth_step1 () {

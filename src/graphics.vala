@@ -48,13 +48,13 @@ class Window : Gtk.Window {
 
     public void setImage (int64 id) {
         var filename = "images/" + id.to_string () + ".jpg";
-        stdout.printf ("setting img from file " + filename);
+        stdout.printf ("setting img from file " + filename + "\n");
         character_profile.set_from_file (filename);
     }
 
     public void setShipImage (int64 id) {
         var filename = "images/" + id.to_string () + ".png";
-        stdout.printf ("setting img from file " + filename);
+        stdout.printf ("setting img from file " + filename + "\n");
         ship_image.set_from_file (filename);
     }
 
